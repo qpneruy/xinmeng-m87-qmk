@@ -4,36 +4,282 @@
     <meta name="google-site-verification" content="PUw65P-5wij6Sq2fwtlx8d0vJ2l3auNZu5bm1-NTsCo" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xinmeng M87 (Xingmeng / Attack Shark M87) QMK & VIA Tri-Mode Firmware</title>
-    <meta name="description" content="Open-source QMK and VIA v3 Tri-Mode Wireless Firmware (USB 1000Hz NKRO, 2.4GHz RF, Bluetooth 5.3) for the Xinmeng M87 / Xingmeng M87 / Attack Shark M87 mechanical keyboard (SN32F248B + WCH CH582F).">
-    <meta name="keywords" content="Xinmeng M87, Xingmeng M87, Attack Shark M87, QMK, VIA, Tri-Mode Firmware, SonixQMK, SN32F248B, CH582F, Mechanical Keyboard">
-    
-    <!-- Dán thẻ <meta name="google-site-verification" ...> của Google Search Console vào ngay dưới dòng này -->
+    <title>Attack Shark M87 / Xinmeng M87 — QMK & VIA Tri-Mode Firmware</title>
+    <meta name="description" content="Open-source QMK and VIA v3 Tri-Mode Wireless Firmware (USB 1000Hz NKRO, 2.4GHz RF, Bluetooth 5.3) for Attack Shark M87 / Xinmeng M87 mechanical keyboard.">
+    <meta name="keywords" content="Attack Shark M87, Xinmeng M87, Xingmeng M87, QMK, VIA, Tri-Mode Firmware, SonixQMK, SN32F248B, CH582F, Mechanical Keyboard">
+    <link rel="canonical" href="https://github.com/qpneruy/AttackShark-M87-QMK">
 
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 800px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #e6edf3; background: #0d1117; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            max-width: 860px;
+            margin: 40px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #e6edf3;
+            background: #0d1117;
+        }
+        h1, h2, h3 { color: #f0f6fc; border-bottom: 1px solid #21262d; padding-bottom: 0.3em; }
+        h1 { font-size: 2em; margin-bottom: 16px; }
+        h2 { font-size: 1.5em; margin-top: 32px; margin-bottom: 16px; }
+        h3 { font-size: 1.2em; border-bottom: none; margin-top: 24px; }
+        p { margin: 16px 0; }
         a { color: #58a6ff; text-decoration: none; }
         a:hover { text-decoration: underline; }
-        .btn { display: inline-block; padding: 10px 20px; margin: 10px 10px 10px 0; background: #238636; color: #fff; border-radius: 6px; font-weight: 600; }
-        .btn-secondary { background: #21262d; border: 1px solid #30363d; }
-        code { background: #161b22; padding: 2px 6px; border-radius: 4px; }
+        .btn-group { margin: 20px 0 28px 0; }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 8px 10px 8px 0;
+            background: #238636;
+            color: #fff;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn:hover { background: #2ea043; text-decoration: none; }
+        .btn-secondary {
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+        }
+        .btn-secondary:hover { background: #30363d; color: #f0f6fc; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0 24px 0;
+            overflow: hidden;
+            border-radius: 6px;
+            border: 1px solid #30363d;
+        }
+        th, td {
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid #21262d;
+        }
+        th { background: #161b22; color: #f0f6fc; }
+        tr:nth-child(even) { background: #161b2280; }
+        code {
+            background: #161b22;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, monospace;
+            font-size: 0.9em;
+            color: #ff7b72;
+        }
+        pre {
+            background: #161b22;
+            padding: 14px;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid #30363d;
+        }
+        pre code { color: #e6edf3; padding: 0; background: none; }
+        ul { padding-left: 24px; margin: 12px 0; }
+        li { margin-bottom: 6px; }
+        hr { border: 0; border-top: 1px solid #21262d; margin: 32px 0; }
     </style>
 </head>
 <body>
-    <h1>Xinmeng M87 / Attack Shark M87 — QMK & VIA Tri-Mode Firmware</h1>
-    <p>Full open-source <strong>QMK & VIA v3</strong> firmware for the <strong>Xinmeng M87</strong> (also known as <strong>Xingmeng M87</strong> / <strong>Attack Shark M87</strong>) mechanical keyboard powered by <code>SN32F248B</code> + <code>WCH CH582F</code>.</p>
 
-    <p>
-        <a class="btn" href="https://github.com/qpneruy/xinmeng-m87-qmk/releases">⬇ Download Latest Firmware (.bin & VIA .json)</a>
-        <a class="btn btn-secondary" href="https://github.com/qpneruy/xinmeng-m87-qmk">⭐ View Source Code on GitHub</a>
-    </p>
+    <h1>Attack Shark M87 / Xinmeng M87 — QMK & VIA Tri-Mode Firmware</h1>
+    <p>A full-featured open-source <strong>QMK & VIA v3</strong> firmware port for the <strong>Attack Shark M87</strong> (also known as <strong>Xinmeng M87</strong> / <strong>Xingmeng M87</strong>) mechanical keyboard powered by the <code>SONiX SN32F248B</code> MCU and <code>WCH CH582F</code> wireless coprocessor.</p>
 
-    <h2>Key Features</h2>
+    <div class="btn-group">
+        <a class="btn" href="https://github.com/qpneruy/AttackShark-M87-QMK/releases">⬇ Download Latest Firmware (.bin & VIA .json)</a>
+        <a class="btn btn-secondary" href="https://github.com/qpneruy/AttackShark-M87-QMK">⭐ View Source Code on GitHub</a>
+    </div>
+
+    <h2>Key Highlights</h2>
     <ul>
-        <li><strong>Full Tri-Mode Wireless:</strong> Wired USB (1000Hz NKRO), 2.4GHz RF, and Bluetooth 5.3 (3 profiles).</li>
-        <li><strong>Out-of-the-box VIA v3 Support:</strong> Remap keys, layers, and macros live on <a href="https://usevia.app">usevia.app</a>.</li>
-        <li><strong>Flash Wear-Leveling Protection:</strong> In-RAM live RGB adjustments with on-demand EEPROM save (<code>Fn + /</code>).</li>
-        <li><strong>Custom RGB Animations & Zones:</strong> Independent control for Keylight, Sidelight, and Lightbar, plus 10-level battery indicator (<code>Fn + B</code>).</li>
+        <li><strong>Full Tri-Mode Wireless:</strong> Low-latency Wired USB (1000Hz NKRO), 2.4GHz RF, and Bluetooth 5.3 (3 profiles).</li>
+        <li><strong>Full 4-Layer VIA v3 Support:</strong> Real-time key remapping, layers, and macros configuration on <a href="https://usevia.app" target="_blank" rel="noopener">usevia.app</a>.</li>
+        <li><strong>Flash Wear-Leveling Protection:</strong> Live in-RAM RGB matrix adjustments with on-demand EEPROM commit (<code>Fn + /</code>).</li>
+        <li><strong>Modular Custom RGB Engine:</strong> Smooth mode sweep transition, F8 startup ripple wave, soft-off expand/collapse animations, and inertia stepping for hue/brightness.</li>
+        <li><strong>Power-Saving Soft-Off:</strong> Instant deep-sleep mode (<code>Fn + `</code>) shutting off all LEDs and suspending key scans until awakened.</li>
+        <li><strong>Configurable Auto Shift:</strong> Integrated QMK Auto Shift disabled by default at boot, toggleable anytime via <code>Fn + Left Shift</code>.</li>
     </ul>
+
+    <h2>Hardware Specifications</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Feature</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Commercial Models</strong></td>
+                <td>Attack Shark M87 / Xinmeng M87 (Xingmeng M87)</td>
+            </tr>
+            <tr>
+                <td><strong>Layout</strong></td>
+                <td>Standard ANSI TKL 87-key (Tenkeyless)</td>
+            </tr>
+            <tr>
+                <td><strong>Mounting Style</strong></td>
+                <td>Gasket Mount, Flex-cut PCB</td>
+            </tr>
+            <tr>
+                <td><strong>Microcontroller (MCU)</strong></td>
+                <td>SONiX SN32F248BF / HFD2201KBA (ARM Cortex-M0 @ 48MHz, 64KB Flash, 8KB SRAM, LQFP-64)</td>
+            </tr>
+            <tr>
+                <td><strong>Wireless Coprocessor</strong></td>
+                <td>WCH CH582F (BLE 5.3 & 2.4GHz RF, high-speed UART bridge)</td>
+            </tr>
+            <tr>
+                <td><strong>Bootloader Mode</strong></td>
+                <td>Hardware Masked ROM ISP Bootloader (<code>VID: 0x0C45</code>, <code>PID: 0x7040</code>)</td>
+            </tr>
+            <tr>
+                <td><strong>QMK User Mode</strong></td>
+                <td><code>VID: 0x0C45</code>, <code>PID: 0x8006</code></td>
+            </tr>
+            <tr>
+                <td><strong>USB Polling Rate</strong></td>
+                <td>1000Hz (1ms)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Pin Mapping</h2>
+    <h3>Key Switch Matrix (COL2ROW)</h3>
+    <ul>
+        <li><strong>Rows (6):</strong> <code>D11, D10, D9, D8, D7, D6</code></li>
+        <li><strong>Cols (17):</strong> <code>C12, C11, C10, C9, C8, C7, C6, C5, C4, C3, C2, C1, C0, C15, B15, B13, B12</code></li>
+    </ul>
+
+    <h3>RGB Matrix & Side Strips</h3>
+    <ul>
+        <li><strong>Architecture:</strong> Common Anode (18-channel PWM Rows <code>[R, B, G]</code>)</li>
+        <li><strong>Row Pins (18):</strong> <code>{ A8, A9, A10, A11, A12, A13, A14, A15, B0, B1, B2, B3, B4, B7, B8, D3, B14, B10 }</code></li>
+        <li><strong>Side Strips Anode Pins:</strong>
+            <ul>
+                <li>Pin 40 (<code>B6</code>): Left Strip (8 LEDs)</li>
+                <li>Pin 43 (<code>B9</code>): Right Strip (8 LEDs)</li>
+                <li>Pin 45 (<code>B11</code>): Logo Lightbar Strip (6 LEDs)</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Default Layer 1 Shortcuts</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Shortcut</th>
+                <th>Keycode</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong><code>Fn + Esc</code></strong></td>
+                <td><code>QK_BOOT</code></td>
+                <td>Reboot keyboard into ISP Bootloader mode</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + `</code></strong></td>
+                <td><code>M87_OFF</code></td>
+                <td>Enter Soft-Off power-saving mode (Shut down LEDs & lock keys)</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + 1..3</code></strong></td>
+                <td><code>M87_BT1..3</code></td>
+                <td>Select Bluetooth Profile 1 / 2 / 3 (Tap: switch, hold 3s: pairing)</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + 4</code></strong></td>
+                <td><code>M87_24G</code></td>
+                <td>Select 2.4GHz RF wireless mode</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + B</code></strong> / <strong><code>Fn + LAlt</code></strong> / <strong><code>Fn + RAlt</code></strong></td>
+                <td><code>BATTERY_LEVEL</code></td>
+                <td>Display 10-level battery percentage on 1..0 number row</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + Left Shift</code></strong></td>
+                <td><code>AS_TOGG</code></td>
+                <td>Toggle QMK Auto Shift feature on/off</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + Backspace</code></strong></td>
+                <td><code>KEYLIGHT_TOGG</code></td>
+                <td>Toggle key backlighting (keeps side strips and lightbar ON)</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + \</code></strong></td>
+                <td><code>RM_NEXT</code></td>
+                <td>Cycle next RGB effect (with curtain sweep transition)</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + Del</code></strong></td>
+                <td><code>RM_HUEU</code></td>
+                <td>Cycle RGB hue smoothly</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + End</code></strong></td>
+                <td><code>LIGHTBAR_TOGG</code></td>
+                <td>Toggle logo lightbar strip</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + /</code></strong></td>
+                <td><code>M87_RGB_SAVE</code></td>
+                <td>Commit current RGB & strip settings to Flash EEPROM</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + RCtrl</code></strong></td>
+                <td><code>SIDELIGHT_TOGG</code></td>
+                <td>Toggle left & right side decorative RGB strips</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + Up</code> / <code>Fn + Down</code></strong></td>
+                <td><code>RM_VALU</code> / <code>RM_VALD</code></td>
+                <td>Increase / decrease RGB brightness</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + Right</code> / <code>Fn + Left</code></strong></td>
+                <td><code>RM_SPDU</code> / <code>RM_SPDD</code></td>
+                <td>Increase / decrease RGB effect animation speed</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + LWin</code></strong></td>
+                <td><code>GU_TOGG</code></td>
+                <td>Toggle Windows key lock</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + F1..F4</code></strong></td>
+                <td><code>KC_MYCM</code>..<code>KC_MSEL</code></td>
+                <td>My Computer / Web Browser / Calculator / Media Player</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + F5..F8</code></strong></td>
+                <td>Media Controls</td>
+                <td>Prev / Next / Play-Pause / Stop Track (Fn + F8: Trigger ripple wave)</td>
+            </tr>
+            <tr>
+                <td><strong><code>Fn + F9..F11</code></strong></td>
+                <td>Volume Controls</td>
+                <td>Mute / Volume Down / Volume Up</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Bootloader Access</h2>
+    <p>You can enter the Sonix ISP bootloader in two ways:</p>
+    <ul>
+        <li><strong>Software Shortcut:</strong> While the keyboard is connected, press <strong><code>Fn + Esc</code></strong> (Layer 1).</li>
+        <li><strong>Hardware Bootmagic:</strong> Unplug the USB cable, hold down the <strong><code>Escape</code></strong> key, and plug the cable back in.</li>
+    </ul>
+
+    <h2>Flashing Firmware</h2>
+    <p>Once the keyboard is in bootloader mode (<code>VID: 0x0C45</code>, <code>PID: 0x7040</code>), flash using the Sonix flasher utility:</p>
+    <pre><code>./sonixflasher -v 0c45/7040 -f attackshark_m87_default.bin</code></pre>
+
+    <hr>
+    <p>Maintained by <a href="https://github.com/qpneruy">HuuTinh (@qpneruy)</a>. Licensed under GPL-2.0-or-later.</p>
 </body>
 </html>
