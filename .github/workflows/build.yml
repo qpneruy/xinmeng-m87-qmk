@@ -1,0 +1,66 @@
+name: Build & Regression Checks
+
+on:
+  push:
+    branches: [main, dev]
+    paths: ['keyboards/**', 'quantum/**', 'platforms/**', '.github/workflows/build.yml']
+  pull_request:
+    paths: ['keyboards/**', 'quantum/**', 'platforms/**', '.github/workflows/build.yml']
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: ghcr.io/qmk/qmk_cli:latest
+    strategy:
+      fail-fast: false
+      matrix:
+        keymap: [default, via]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure QMK
+        run: qmk config user.keyboard=xinmeng_m75_driver_plus user.keymap=${{ matrix.keymap }}
+
+      - name: Check keyboard definition present
+        id: kbcheck
+        run: |
+          if [ -d "keyboards/xinmeng_m75_driver_plus" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::keyboard skeleton not yet created - skipping compile (P1 pending)"
+          fi
+
+      - name: Validate keyboard.json
+        if: steps.kbcheck.outputs.present == 'true'
+        run: python3 bin/qmk generate-rgb-matrix-h --quiet keyboards/xinmeng_m75_driver_plus 2>/dev/null || python3 -c "import json;json.load(open('keyboards/xinmeng_m75_driver_plus/keyboard.json'));print('keyboard.json: valid JSON')"
+
+      - name: Compile
+        if: steps.kbcheck.outputs.present == 'true'
+        run: qmk compile -kb xinmeng_m75_driver_plus -km ${{ matrix.keymap }}
+
+      - name: Flash size gate (protect wear-leveling region)
+        if: steps.kbcheck.outputs.present == 'true'
+        run: |
+          BIN=$(find .build -name '*.bin' | head -1)
+          if [ -n "$BIN" ]; then
+            SIZE=$(stat -c%s "$BIN")
+            echo "firmware size: $SIZE bytes ($BIN)"
+            LIMIT=56320
+            if [ "$SIZE" -gt "$LIMIT" ]; then
+              echo "::error::firmware $SIZE bytes exceeds $LIMIT limit - would collide with wear-leveling EEPROM region"
+              exit 1
+            fi
+          else
+            echo "::warning::no .bin produced"
+          fi
+
+      - name: Upload firmware artifact
+        if: steps.kbcheck.outputs.present == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: xinmeng_m75_driver_plus_${{ matrix.keymap }}
+          path: .build/*.bin
+          if-no-files-found: warn
