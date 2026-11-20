@@ -1,3 +1,10 @@
+> [!WARNING]
+> **Repository Archived — Moved to [qpneruy/AttackShark-M87-QMK](https://github.com/qpneruy/AttackShark-M87-QMK)**
+>
+> This repository (`xinmeng-m87-qmk`) is no longer maintained and has been archived.
+> All ongoing firmware development, releases, and bug fixes have moved to the new repository:
+> 👉 **https://github.com/qpneruy/AttackShark-M87-QMK**
+
 # Xinmeng M87 (Attack Shark M87) Standalone QMK/VIA Firmware Repository
 
 [![License: GPL v2](https://img.shields.io/badge/License-GPLv2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
